@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'org.openauto.webviewauto'
+    namespace 'org.santech.webviewauto'
     compileSdk 34
 
     defaultConfig {
-        applicationId "org.openauto.webviewauto"
+        applicationId "org.santech.webviewauto"
         minSdk 21
         targetSdk 34
         versionCode 1
