@@ -7,3 +7,6 @@
 /build
 /captures
 .externalNativeBuild
+/.idea/caches/deviceStreaming.xml
+/.idea/AndroidProjectSystem.xml
+/.idea/appInsightsSettings.xml

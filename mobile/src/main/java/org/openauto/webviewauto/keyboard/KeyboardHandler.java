@@ -3,8 +3,8 @@ package org.openauto.webviewauto.keyboard;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.ViewCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.ViewCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -84,10 +84,7 @@ public class KeyboardHandler {
                 btn.setText(s);
                 btn.setLayoutParams(W_W_1);
                 btn.setOnClickListener(v -> {
-                    if(s.equals("\uF5CA")){
-                        cycleLayout();
-                        activity.loadKeyboard(context);
-                    }
+                    if(s.equals("\uF5CA")){                        cycleLayout();                        LinearLayout keyboard = activity.findViewById(R.id.browser_keyboard);                        keyboard.removeAllViews();                        keyboard.addView(createKeyboardView(activity, context));                    }
                     else if(s.equals(activity.getResources().getString(R.string.key_caps))){
                         List<View> children = UIUtils.getAllChildrenBFS(container);
                         for(View letter : children){

@@ -1,7 +1,7 @@
 package org.openauto.webviewauto;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -46,19 +46,13 @@ public class WebViewPhoneActivity extends AppCompatActivity {
         EditText url_to_car_text = findViewById(R.id.url_to_car_text);
         Button url_to_car_button = findViewById(R.id.url_to_car_button);
         url_to_car_button.setOnClickListener(v -> {
-            WebViewAutoActivity act = ActivityAccessHelper.getInstance().activity;
-            if(act != null){
-                act.sendURLToCar(url_to_car_text.getText().toString());
-            }
+            // TODO: Implement URL sending to car using the new Android Auto API
         });
 
         EditText text_to_car_text = findViewById(R.id.text_to_car_text);
         Button text_to_car_button = findViewById(R.id.text_to_car_button);
         text_to_car_button.setOnClickListener(v -> {
-            WebViewAutoActivity act = ActivityAccessHelper.getInstance().activity;
-            if(act != null){
-                act.sendStringToCar(text_to_car_text.getText().toString());
-            }
+            // TODO: Implement text sending to car using the new Android Auto API
         });
 
     }

@@ -4,7 +4,7 @@ import androidx.car.app.CarAppService;
 import androidx.car.app.Session;
 import androidx.car.app.validation.HostValidator;
 
-public class CarService extends CarAppService {
+public class WebViewAutoService extends CarAppService {
     @Override
     public Session onCreateSession() {
         return new WebViewAutoSession();

@@ -1,21 +1,17 @@
 package org.openauto.webviewauto;
 
-import android.util.SparseArray;
-
-import com.google.android.apps.auto.sdk.MenuAdapter;
-import com.google.android.apps.auto.sdk.MenuItem;
+import androidx.car.app.model.ItemList;
+import androidx.car.app.model.Row;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ListMenuAdapter extends MenuAdapter {
-    private List<MenuItem> mMenuItems = new ArrayList<>();
-    private Map<String, Integer> mMenuItemsByNames = new HashMap<>();
-    private SparseArray<String> mMenuItemNames = new SparseArray<>();
-    private SparseArray<MenuAdapter> mSubmenus = new SparseArray<>();
-    private MenuCallbacks mCallbacks;
+public class ListMenuAdapter {
+    private final List<Row> menuItems = new ArrayList<>();
+    private final Map<String, Integer> menuItemsByNames = new HashMap<>();
+    private MenuCallbacks callbacks;
 
     public interface MenuCallbacks {
         void onMenuItemClicked(String name);
@@ -23,67 +19,51 @@ public class ListMenuAdapter extends MenuAdapter {
         void onExit();
     }
 
-    @Override
-    public MenuItem getMenuItem(int i) {
-        return mMenuItems.get(i);
+    public Row getMenuItem(int i) {
+        return menuItems.get(i);
     }
 
-    public MenuItem getMenuItem(String name) {
-        return mMenuItems.get(mMenuItemsByNames.get(name));
+    public Row getMenuItem(String name) {
+        Integer index = menuItemsByNames.get(name);
+        return index != null ? menuItems.get(index) : null;
     }
 
-    @Override
     public int getMenuItemCount() {
-        return mMenuItems.size();
+        return menuItems.size();
     }
 
-    @Override
-    public MenuAdapter onLoadSubmenu(int i) {
-        return mSubmenus.get(i);
-    }
-
-    public void addMenuItem(String name, MenuItem menuItem) {
-        mMenuItemsByNames.put(name, mMenuItems.size());
-        mMenuItemNames.put(mMenuItems.size(), name);
-        mMenuItems.add(menuItem);
-    }
-
-    public void addSubmenu(String name, MenuAdapter submenu) {
-        if (!mMenuItemsByNames.containsKey(name)) {
-            throw new IllegalArgumentException("Unknown menu to add submenu");
-        }
-        int index = mMenuItemsByNames.get(name);
-        if (mSubmenus.get(index) != null) {
-            throw new IllegalArgumentException("Submenu already present");
-        }
-        if (mMenuItems.get(index).getType() != MenuItem.Type.SUBMENU) {
-            throw new IllegalArgumentException("Submenu can be attached only to SUBMENU item type");
-        }
-        mSubmenus.put(index, submenu);
+    public void addMenuItem(String name, Row menuItem) {
+        menuItemsByNames.put(name, menuItems.size());
+        menuItems.add(menuItem);
     }
 
     public void setCallbacks(MenuCallbacks callbacks) {
-        this.mCallbacks = callbacks;
+        this.callbacks = callbacks;
     }
 
-    @Override
-    public void onMenuItemClicked(int i) {
-        if (mCallbacks != null) {
-            mCallbacks.onMenuItemClicked(mMenuItemNames.get(i));
+    public ItemList.Builder buildItemList() {
+        ItemList.Builder builder = new ItemList.Builder();
+        for (Row item : menuItems) {
+            builder.addItem(item);
+        }
+        return builder;
+    }
+
+    public void onMenuItemClicked(String name) {
+        if (callbacks != null) {
+            callbacks.onMenuItemClicked(name);
         }
     }
 
-    @Override
     public void onEnter() {
-        if (mCallbacks != null) {
-            mCallbacks.onEnter();
+        if (callbacks != null) {
+            callbacks.onEnter();
         }
     }
 
-    @Override
     public void onExit() {
-        if (mCallbacks != null) {
-            mCallbacks.onExit();
+        if (callbacks != null) {
+            callbacks.onExit();
         }
     }
 }
